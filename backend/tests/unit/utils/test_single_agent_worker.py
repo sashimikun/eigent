@@ -16,7 +16,7 @@ class TestSingleAgentWorker:
     
     def test_single_agent_worker_initialization(self):
         """Test SingleAgentWorker initialization."""
-        mock_worker = MagicMock(spec=ListenChatAgent)
+        mock_worker = MagicMock(spec=ListenChatAgent, agent_name="test_agent")
         mock_worker.role_name = "test_worker"
         mock_worker.agent_id = "worker_123"
         
@@ -40,7 +40,7 @@ class TestSingleAgentWorker:
     @pytest.mark.asyncio
     async def test_process_task_success_with_structured_output(self):
         """Test _process_task with successful structured output."""
-        mock_worker = MagicMock(spec=ListenChatAgent)
+        mock_worker = MagicMock(spec=ListenChatAgent, agent_name="test_agent")
         mock_worker.role_name = "test_worker"
         mock_worker.agent_id = "worker_123"
         
@@ -98,7 +98,7 @@ class TestSingleAgentWorker:
     @pytest.mark.asyncio
     async def test_process_task_success_with_native_structured_output(self):
         """Test _process_task with successful native structured output."""
-        mock_worker = MagicMock(spec=ListenChatAgent)
+        mock_worker = MagicMock(spec=ListenChatAgent, agent_name="test_agent")
         mock_worker.role_name = "test_worker"
         mock_worker.agent_id = "worker_123"
         
@@ -149,7 +149,7 @@ class TestSingleAgentWorker:
     @pytest.mark.asyncio
     async def test_process_task_with_streaming_response(self):
         """Test _process_task with streaming response."""
-        mock_worker = MagicMock(spec=ListenChatAgent)
+        mock_worker = MagicMock(spec=ListenChatAgent, agent_name="test_agent")
         mock_worker.role_name = "test_worker"
         mock_worker.agent_id = "test_agent_123"
         
@@ -205,7 +205,7 @@ class TestSingleAgentWorker:
     @pytest.mark.asyncio
     async def test_process_task_failure_exception(self):
         """Test _process_task handles exceptions properly."""
-        mock_worker = MagicMock(spec=ListenChatAgent)
+        mock_worker = MagicMock(spec=ListenChatAgent, agent_name="test_agent")
         mock_worker.role_name = "test_worker"
         mock_worker.agent_id = "test_agent_123"
         
@@ -234,7 +234,7 @@ class TestSingleAgentWorker:
     @pytest.mark.asyncio
     async def test_process_task_with_failed_task_result(self):
         """Test _process_task when task result indicates failure."""
-        mock_worker = MagicMock(spec=ListenChatAgent)
+        mock_worker = MagicMock(spec=ListenChatAgent, agent_name="test_agent")
         mock_worker.role_name = "test_worker"
         mock_worker.agent_id = "test_agent_123"
         
@@ -279,7 +279,7 @@ class TestSingleAgentWorker:
     @pytest.mark.asyncio
     async def test_process_task_with_dependencies(self):
         """Test _process_task with task dependencies."""
-        mock_worker = MagicMock(spec=ListenChatAgent)
+        mock_worker = MagicMock(spec=ListenChatAgent, agent_name="test_agent")
         mock_worker.role_name = "test_worker"
         mock_worker.agent_id = "test_agent_123"
         
@@ -322,7 +322,7 @@ class TestSingleAgentWorker:
     @pytest.mark.asyncio
     async def test_process_task_with_parent_task(self):
         """Test _process_task with parent task context."""
-        mock_worker = MagicMock(spec=ListenChatAgent)
+        mock_worker = MagicMock(spec=ListenChatAgent, agent_name="test_agent")
         mock_worker.role_name = "test_worker"
         mock_worker.agent_id = "test_agent_123"
         
@@ -367,7 +367,7 @@ class TestSingleAgentWorker:
     @pytest.mark.asyncio
     async def test_process_task_content_validation_failure(self):
         """Test _process_task when content validation fails."""
-        mock_worker = MagicMock(spec=ListenChatAgent)
+        mock_worker = MagicMock(spec=ListenChatAgent, agent_name="test_agent")
         mock_worker.role_name = "test_worker"
         mock_worker.agent_id = "test_agent_123"
         
@@ -404,7 +404,7 @@ class TestSingleAgentWorker:
         """Test that SingleAgentWorker inherits from BaseSingleAgentWorker."""
         from camel.societies.workforce.single_agent_worker import SingleAgentWorker as BaseSingleAgentWorker
         
-        mock_worker = MagicMock(spec=ListenChatAgent)
+        mock_worker = MagicMock(spec=ListenChatAgent, agent_name="test_agent")
         mock_worker.agent_id = "test_agent_123"
         worker = SingleAgentWorker(description="Test", worker=mock_worker)
         
@@ -418,7 +418,7 @@ class TestSingleAgentWorkerIntegration:
     @pytest.mark.asyncio
     async def test_worker_with_multiple_tasks(self):
         """Test worker processing multiple tasks in sequence."""
-        mock_worker = MagicMock(spec=ListenChatAgent)
+        mock_worker = MagicMock(spec=ListenChatAgent, agent_name="test_agent")
         mock_worker.role_name = "integration_worker"
         mock_worker.agent_id = "test_agent_123"
         
@@ -495,7 +495,7 @@ class TestSingleAgentWorkerErrorCases:
     @pytest.mark.asyncio
     async def test_process_task_with_none_response(self):
         """Test _process_task when agent returns None response."""
-        mock_worker = MagicMock(spec=ListenChatAgent)
+        mock_worker = MagicMock(spec=ListenChatAgent, agent_name="test_agent")
         mock_worker.agent_id = "test_agent_123"
         worker = SingleAgentWorker(description="Test", worker=mock_worker, use_structured_output_handler=False)
         
@@ -518,7 +518,7 @@ class TestSingleAgentWorkerErrorCases:
     @pytest.mark.asyncio
     async def test_process_task_with_malformed_response(self):
         """Test _process_task with malformed response structure."""
-        mock_worker = MagicMock(spec=ListenChatAgent)
+        mock_worker = MagicMock(spec=ListenChatAgent, agent_name="test_agent")
         mock_worker.agent_id = "test_agent_123"
         worker = SingleAgentWorker(description="Test", worker=mock_worker, use_structured_output_handler=False)
         
@@ -545,7 +545,7 @@ class TestSingleAgentWorkerErrorCases:
     @pytest.mark.asyncio
     async def test_process_task_with_missing_usage_info(self):
         """Test _process_task when usage information is missing."""
-        mock_worker = MagicMock(spec=ListenChatAgent)
+        mock_worker = MagicMock(spec=ListenChatAgent, agent_name="test_agent")
         mock_worker.agent_id = "test_agent_123"
         mock_worker.role_name = "test_worker"
         worker = SingleAgentWorker(description="Test", worker=mock_worker, use_structured_output_handler=False)
