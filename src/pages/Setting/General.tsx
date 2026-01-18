@@ -57,6 +57,11 @@ export default function SettingGeneral() {
 			value: "light",
 		},
 		{
+			img: dark,
+			label: "setting.dark",
+			value: "dark",
+		},
+		{
 			img: transparent,
 			label: "setting.transparent",
 			value: "transparent",
@@ -121,6 +126,11 @@ export default function SettingGeneral() {
 					value: "light",
 				},
 				{
+					img: dark,
+					label: "setting.dark",
+					value: "dark",
+				},
+				{
 					img: transparent,
 					label: "setting.transparent",
 					value: "transparent",
@@ -132,6 +142,11 @@ export default function SettingGeneral() {
 					img: light,
 					label: "setting.light",
 					value: "light",
+				},
+				{
+					img: dark,
+					label: "setting.dark",
+					value: "dark",
 				},
 			]);
 		}
