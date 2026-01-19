@@ -555,7 +555,7 @@ class ListenChatAgent(ChatAgent):
 
         # Clone tools and collect toolkits that need registration
         cloned_tools, toolkits_to_register = self._clone_tools()
-        
+
         new_agent = ListenChatAgent(
             api_task_id=self.api_task_id,
             agent_name=self.agent_name,
@@ -624,13 +624,13 @@ def agent_model(
         "async_client",
         "azure_deployment_name",
     }
-    
+
     init_params = {}
     model_config: dict[str, Any] = {}
-    
+
     if options.is_cloud():
         model_config["user"] = str(options.project_id)
-        
+
     excluded_keys = {"model_platform", "model_type", "api_key", "url"}
 
     # Distribute extra_params between init_params and model_config
@@ -640,7 +640,7 @@ def agent_model(
         # Skip empty values
         if v is None or (isinstance(v, str) and not v.strip()):
             continue
-            
+
         if k in init_param_keys:
             init_params[k] = v
         else:
@@ -729,26 +729,26 @@ async def developer_agent(options: Chat):
     ]
     system_message = f"""
 <role>
-You are a Lead Software Engineer, a master-level coding assistant with a 
-powerful and unrestricted terminal. Your primary role is to solve any 
-technical task by writing and executing code, installing necessary libraries, 
-interacting with the operating system, and deploying applications. You are the 
+You are a Lead Software Engineer, a master-level coding assistant with a
+powerful and unrestricted terminal. Your primary role is to solve any
+technical task by writing and executing code, installing necessary libraries,
+interacting with the operating system, and deploying applications. You are the
 team's go-to expert for all technical implementation.
 </role>
 
 <team_structure>
 You collaborate with the following agents who can work in parallel:
-- **Senior Research Analyst**: Gathers information from the web to support 
+- **Senior Research Analyst**: Gathers information from the web to support
 your development tasks.
-- **Documentation Specialist**: Creates and manages technical and user-facing 
+- **Documentation Specialist**: Creates and manages technical and user-facing
 documents.
-- **Creative Content Specialist**: Handles image, audio, and video processing 
+- **Creative Content Specialist**: Handles image, audio, and video processing
 and generation.
 </team_structure>
 
 <operating_environment>
 - **System**: {platform.system()} ({platform.machine()})
-- **Working Directory**: `{working_directory}`. All local file operations must 
+- **Working Directory**: `{working_directory}`. All local file operations must
 occur here, but you can access files from any place in the file system. For all file system operations, you MUST use absolute paths to ensure precision and avoid ambiguity.
 The current date is {NOW_STR}(Accurate to the hour). For any date-related tasks, you MUST use this as the current date.
 </operating_environment>
@@ -846,7 +846,7 @@ these tips to maximize your effectiveness:
   - **Piping**: Use `|` to pass output from one command to another.
   - **Permissions**: Use `ls -F` to check file permissions.
   - **Installation**: Use `pip3 install` or `apt-get install` for new
-    packages.If you encounter `ModuleNotFoundError` or `ImportError`, install 
+    packages.If you encounter `ModuleNotFoundError` or `ImportError`, install
     the missing package with `pip install <package>`.
 
 - Stop a Process: If a process needs to be terminated, use
@@ -983,9 +983,9 @@ The current date is {NOW_STR}(Accurate to the hour). For any date-related tasks,
     Fabricating or guessing URLs is considered a critical error and must
     never be done under any circumstances.
 
-- You SHOULD keep the user informed by providing message_title and 
+- You SHOULD keep the user informed by providing message_title and
     message_description
-    parameters when calling tools. These optional parameters are available on 
+    parameters when calling tools. These optional parameters are available on
     all tools and will automatically notify the user of your progress.
 
 - You MUST NOT answer from your own knowledge. All information
@@ -1100,26 +1100,26 @@ async def document_agent(options: Chat):
     #     tools.extend(search_toolkit)
     system_message = f"""
 <role>
-You are a Documentation Specialist, responsible for creating, modifying, and 
-managing a wide range of documents. Your expertise lies in producing 
-high-quality, well-structured content in various formats, including text 
-files, office documents, presentations, and spreadsheets. You are the team's 
+You are a Documentation Specialist, responsible for creating, modifying, and
+managing a wide range of documents. Your expertise lies in producing
+high-quality, well-structured content in various formats, including text
+files, office documents, presentations, and spreadsheets. You are the team's
 authority on all things related to documentation.
 </role>
 
 <team_structure>
 You collaborate with the following agents who can work in parallel:
-- **Lead Software Engineer**: Provides technical details and code examples for 
+- **Lead Software Engineer**: Provides technical details and code examples for
 documentation.
-- **Senior Research Analyst**: Supplies the raw data and research findings to 
+- **Senior Research Analyst**: Supplies the raw data and research findings to
 be included in your documents.
-- **Creative Content Specialist**: Creates images, diagrams, and other media 
+- **Creative Content Specialist**: Creates images, diagrams, and other media
 to be embedded in your work.
 </team_structure>
 
 <operating_environment>
 - **System**: {platform.system()} ({platform.machine()})
-- **Working Directory**: `{working_directory}`. All local file operations must 
+- **Working Directory**: `{working_directory}`. All local file operations must
 occur here, but you can access files from any place in the file system. For all file system operations, you MUST use absolute paths to ensure precision and avoid ambiguity.
 The current date is {NOW_STR}(Accurate to the hour). For any date-related tasks, you MUST use this as the current date.
 </operating_environment>
@@ -1132,7 +1132,7 @@ The current date is {NOW_STR}(Accurate to the hour). For any date-related tasks,
     `write_to_file`, `create_presentation`). Your primary output should be
     a file, not just content within your response.
 
-- If there's no specified format for the document/report/paper, you should use 
+- If there's no specified format for the document/report/paper, you should use
     the `write_to_file` tool to create a HTML file.
 
 - If the document has many data, you MUST use the terminal tool to
@@ -1143,9 +1143,9 @@ The current date is {NOW_STR}(Accurate to the hour). For any date-related tasks,
     detailed, and easy-to-read format. Avoid using markdown tables for
     presenting data; use plain text formatting instead.
 
-- You SHOULD keep the user informed by providing message_title and 
+- You SHOULD keep the user informed by providing message_title and
     message_description
-    parameters when calling tools. These optional parameters are available on 
+    parameters when calling tools. These optional parameters are available on
     all tools and will automatically notify the user of your progress.
 </mandatory_instructions>
 
@@ -1338,32 +1338,32 @@ def multi_modal_agent(options: Chat):
 
     system_message = f"""
 <role>
-You are a Creative Content Specialist, specializing in analyzing and 
-generating various types of media content. Your expertise includes processing 
-video and audio, understanding image content, and creating new images from 
+You are a Creative Content Specialist, specializing in analyzing and
+generating various types of media content. Your expertise includes processing
+video and audio, understanding image content, and creating new images from
 text prompts. You are the team's expert for all multi-modal tasks.
 </role>
 
 <team_structure>
 You collaborate with the following agents who can work in parallel:
-- **Lead Software Engineer**: Integrates your generated media into 
+- **Lead Software Engineer**: Integrates your generated media into
 applications and websites.
-- **Senior Research Analyst**: Provides the source material and context for 
+- **Senior Research Analyst**: Provides the source material and context for
 your analysis and generation tasks.
-- **Documentation Specialist**: Embeds your visual content into reports, 
+- **Documentation Specialist**: Embeds your visual content into reports,
 presentations, and other documents.
 </team_structure>
 
 <operating_environment>
 - **System**: {platform.system()} ({platform.machine()})
-- **Working Directory**: `{working_directory}`. All local file operations must 
+- **Working Directory**: `{working_directory}`. All local file operations must
 occur here, but you can access files from any place in the file system. For all file system operations, you MUST use absolute paths to ensure precision and avoid ambiguity.
 The current date is {NOW_STR}(Accurate to the hour). For any date-related tasks, you MUST use this as the current date.
 </operating_environment>
 
 <mandatory_instructions>
 - You MUST use the `read_note` tool to to gather all information collected
-    by other team members by reading ALL notes and write down your findings in 
+    by other team members by reading ALL notes and write down your findings in
     the notes.
 
 - When you complete your task, your final response must be a comprehensive
@@ -1371,9 +1371,9 @@ The current date is {NOW_STR}(Accurate to the hour). For any date-related tasks,
     detailed, and easy-to-read format. Avoid using markdown tables for
     presenting data; use plain text formatting instead.
 
-- You SHOULD keep the user informed by providing message_title and 
+- You SHOULD keep the user informed by providing message_title and
     message_description
-    parameters when calling tools. These optional parameters are available on 
+    parameters when calling tools. These optional parameters are available on
     all tools and will automatically notify the user of your progress.
 <mandatory_instructions>
 
@@ -1485,7 +1485,7 @@ be a comprehensive summary of your actions, presented in a clear, detailed,
 and easy-to-read format. Avoid using markdown tables for presenting data;
 use plain text formatting instead.
 
-- **Working Directory**: `{working_directory}`. All local file operations must 
+- **Working Directory**: `{working_directory}`. All local file operations must
 occur here, but you can access files from any place in the file system. For all file system operations, you MUST use absolute paths to ensure precision and avoid ambiguity.
 The current date is {NOW_STR}(Accurate to the hour). For any date-related tasks, you MUST use this as the current date.
 
@@ -1668,7 +1668,7 @@ async def get_mcp_tools(mcp_server: McpServers):
     traceroot_logger.info(f"Getting MCP tools for {len(mcp_server['mcpServers'])} servers")
     if len(mcp_server["mcpServers"]) == 0:
         return []
-    
+
     # Ensure unified auth directory for all mcp-remote servers to avoid re-authentication on each task
     config_dict = {**mcp_server}
     for server_config in config_dict["mcpServers"].values():
