@@ -129,7 +129,7 @@ export function Node({ id, data }: NodeProps) {
 			}
 			lastAutoExpandedTaskIdRef.current = runningTask.id;
 		}
-	}, [data.agent?.tasks, id, data.onExpandChange, isExpanded]);
+	}, [data, id, data.onExpandChange, isExpanded]);
 
 	// manually control node size
 	useEffect(() => {
@@ -576,19 +576,24 @@ export function Node({ id, data }: NodeProps) {
 								return (
 									<div
 										onClick={() => {
-											setSelectedTask(task);
-											setIsExpanded(true);
-											data.onExpandChange(id, true);
-											if (task.agent) {
-												chatStore.setActiveWorkSpace(
-													chatStore.activeTaskId as string,
-													"workflow"
-												);
-												chatStore.setActiveAgent(
-													chatStore.activeTaskId as string,
-													task.agent?.agent_id
-												);
-												window.electronAPI.hideAllWebview();
+											if (selectedTask?.id === task.id && isExpanded) {
+												setIsExpanded(false);
+												data.onExpandChange(id, false);
+											} else {
+												setSelectedTask(task);
+												setIsExpanded(true);
+												data.onExpandChange(id, true);
+												if (task.agent) {
+													chatStore.setActiveWorkSpace(
+														chatStore.activeTaskId as string,
+														"workflow"
+													);
+													chatStore.setActiveAgent(
+														chatStore.activeTaskId as string,
+														task.agent?.agent_id
+													);
+													window.electronAPI.hideAllWebview();
+												}
 											}
 										}}
 										key={`taskList-${task.id}-${task.failure_count}`}
