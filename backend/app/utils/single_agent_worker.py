@@ -5,7 +5,7 @@ from camel.tasks.task import Task, TaskState, is_task_result_insufficient
 from utils import traceroot_wrapper as traceroot
 
 from app.utils.agent import ListenChatAgent
-from camel.societies.workforce.prompts import PROCESS_TASK_PROMPT
+from app.utils.prompts import PROCESS_TASK_PROMPT
 from colorama import Fore
 from camel.societies.workforce.utils import TaskResult
 from camel.utils.context_utils import ContextUtility
