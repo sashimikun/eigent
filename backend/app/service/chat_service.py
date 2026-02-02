@@ -550,11 +550,18 @@ async def step_solve(options: Chat, request: Request, task_lock: TaskLock):
             elif item.action == Action.update_task:
                 assert camel_task is not None
                 update_tasks = {item.id: item for item in item.data.task}
-                # Use stored decomposition results if available
-                if not sub_tasks:
-                    sub_tasks = getattr(task_lock, "decompose_sub_tasks", [])
-                sub_tasks = update_sub_tasks(sub_tasks, update_tasks)
+
+                # Use camel_task.subtasks as the source of truth
+                camel_task.subtasks = update_sub_tasks(camel_task.subtasks, update_tasks)
                 add_sub_tasks(camel_task, item.data.task)
+
+                # Update local sub_tasks and task_lock storage
+                sub_tasks = camel_task.subtasks
+                try:
+                    setattr(task_lock, "decompose_sub_tasks", sub_tasks)
+                except Exception:
+                    pass
+
                 summary_task_content_local = getattr(task_lock, "summary_task_content", summary_task_content)
                 yield to_sub_tasks(camel_task, summary_task_content_local)
             elif item.action == Action.add_task:
@@ -1118,10 +1125,22 @@ def update_sub_tasks(sub_tasks: list[Task], update_tasks: dict[str, TaskContent]
 def add_sub_tasks(camel_task: Task, update_tasks: list[TaskContent]):
     for item in update_tasks:
         if item.id == "":  #
+            # Find max index to avoid ID collision
+            max_idx = 0
+            for t in camel_task.subtasks:
+                try:
+                    # Assumes format "X.Y" or "X.Y.Z"
+                    parts = t.id.split('.')
+                    idx = int(parts[-1])
+                    if idx > max_idx:
+                        max_idx = idx
+                except ValueError:
+                    pass
+
             camel_task.add_subtask(
                 Task(
                     content=item.content,
-                    id=f"{camel_task.id}.{len(camel_task.subtasks) + 1}",
+                    id=f"{camel_task.id}.{max_idx + 1}",
                 )
             )
 
